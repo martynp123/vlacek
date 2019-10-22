@@ -25,6 +25,45 @@ public class Vlacek {
      */
     public void pridatVagonek(VagonekType type) {
 
+        Vagonek temp = new Vagonek(type);
+        switch (type) {
+            case PRVNI_TRIDA:
+
+                lokomotiva.getNasledujici().setPredchozi(temp);
+                temp.setNasledujici(lokomotiva.getNasledujici());
+                temp.setPredchozi(lokomotiva);
+                lokomotiva.setNasledujici(temp);
+
+                nastavUmisteni();
+
+                delka++;
+                break;
+
+            case DRUHA_TRIDA:
+
+                posledni.getPredchozi().setNasledujici(temp);
+                temp.setPredchozi(posledni.getPredchozi());
+                temp.setNasledujici(posledni);
+                posledni.setPredchozi(temp);
+
+                nastavUmisteni();
+
+                delka++;
+                break;
+        }
+    }
+
+    public void nastavUmisteni() {
+
+        Vagonek temp = lokomotiva.getNasledujici();
+
+        for (int i = 0; i < delka; i++) {
+
+            temp.setUmisteni(temp.getPredchozi().getUmisteni() + 1);
+            temp = temp.getNasledujici();
+
+        }
+
     }
 
     public Vagonek getVagonekByIndex(int index) {
