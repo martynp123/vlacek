@@ -113,6 +113,19 @@ class VlacekTest {
         assertEquals(8, vagonek.getUmisteni());
     }
 
+    @Test
+    void test11() {
+        test7();
+        vlacek.pridatVagonek(VagonekType.LUZKOVY);
+        vlacek.pridatVagonek(VagonekType.LUZKOVY);
+        assertTrue(this::isPostovniVagonLast);
+        List<Vagonek> jidelniVozy = vlacek.getJidelniVozy();
+        assertEquals(VagonekType.LUZKOVY, jidelniVozy.get(0).getNasledujici().getType());
+        assertEquals(VagonekType.LUZKOVY, jidelniVozy.get(1).getNasledujici().getType());
+        assertEquals(vlacek.getDelka(), vlacek.getLastVagonekByType(VagonekType.POSTOVNI).getUmisteni());
+
+    }
+
     private boolean isPostovniVagonLast() {
         Vagonek vagonek = vlacek.getVagonekByIndex(vlacek.getDelka());
         return VagonekType.POSTOVNI == vagonek.getType();

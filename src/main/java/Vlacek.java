@@ -58,12 +58,19 @@ public class Vlacek {
                 pridatJidelniVagonek();
 
                 break;
+
+            case LUZKOVY:
+
+                pridatLuzkovyVagonek();
+
+                break;
         }
     }
 
     public void nastavUmisteni() {
 
         Vagonek temp = lokomotiva.getNasledujici();
+
 
         for (int i = 0; i < delka; i++) {
 
@@ -104,8 +111,6 @@ public class Vlacek {
                     if (temp.getType() == VagonekType.POSTOVNI) {
                         return temp;
                     }
-
-
                 }
 
             break;
@@ -162,6 +167,35 @@ public class Vlacek {
         }
     }
         }
+
+    public void pridatLuzkovyVagonek() {
+
+        Vagonek luzkovy = new Vagonek(VagonekType.LUZKOVY);
+        Vagonek temp = lokomotiva;
+
+
+        for (int i = 0; i < delka; i++) {
+
+            if (temp.getType() == VagonekType.JIDELNI && temp.getType() != VagonekType.POSTOVNI && temp.getNasledujici().getType() != VagonekType.LUZKOVY) {
+
+                temp.getNasledujici().setPredchozi(luzkovy);
+                luzkovy.setNasledujici(temp.getNasledujici());
+                luzkovy.setPredchozi(temp);
+                temp.setNasledujici(luzkovy);
+
+
+                nastavUmisteni();
+
+                delka++;
+
+                break;
+            }
+            temp = temp.getNasledujici();
+
+        }
+
+
+    }
 
     public int getPolovinuDruhychTrid() {
 
@@ -326,12 +360,7 @@ public class Vlacek {
 
 
                 break;
-
-
         }
-
-
-
 
     }
 
